@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Guessing Game</title>
+  </head>
+  <body>
+    <div id="container">
+      <div class="bestScore"></div>
+      <div class="life">❤️ 5</div>
+      <main>
+        <div class="inputs">
+          <input type="text" class="guessInput" placeholder="Enter a number" />
+          <div class="buttons">
+            <input
+              type="submit"
+              class="guessButton btn"
+              value="Submit"
+              onclick="checkResult()"
+            />
+            <input type="submit" class="resetButton btn" value="Reset" />
+          </div>
+        </div>
+        <ul class="scoreList">
+          <h1>Scores</h1>
+        </ul>
+      </main>
+    </div>
+    <script src="js/app.js"></script>
+  </body>
+</html>
