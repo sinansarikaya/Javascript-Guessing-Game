@@ -4,36 +4,66 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&display=swap"
       rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
     />
     <title>Guessing Game</title>
   </head>
   <body>
     <div id="container">
-      <div class="bestScore"></div>
-      <div class="life">❤️ 5</div>
+      <div class="social">
+        <a href=""><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href=""><i class="fa-brands fa-github"></i></a>
+        <a href=""><i class="fa-brands fa-instagram"></i></a>
+      </div>
       <main>
-        <div class="inputs">
-          <input type="text" class="guessInput" placeholder="Enter a number" />
-          <div class="buttons">
-            <input
-              type="submit"
-              class="guessButton btn"
-              value="Submit"
-              onclick="checkResult()"
-            />
-            <input type="submit" class="resetButton btn" value="Reset" />
+        <header>
+          <div class="down">
+            <i class="fa-solid fa-arrow-down"></i>
+            <span>Down</span>
+          </div>
+          <div class="header-content">
+            <div class="box">5</div>
+            <div class="box">9</div>
+            <span class="life"> <i class="fa-solid fa-heart"></i> 5 </span>
+          </div>
+          <div class="up">
+            <i class="fa-solid fa-arrow-up"></i>
+            <span>Up</span>
+          </div>
+        </header>
+        <section>
+          <input
+            type="text"
+            placeholder="Enter your guess"
+            class="guessInput"
+          />
+          <input
+            type="button"
+            value="Submit"
+            class="guessButton btn"
+            onclick="checkResult()"
+          />
+          <input type="button" value="Reset" class="resetButton btn" />
+        </section>
+      </main>
+      <footer>
+        <div class="scores">
+          <h2>Scores</h2>
+          <div class="score-box">
+            <span><i class="fa-solid fa-star"></i></span>
+            <span><b>100p</b></span>
           </div>
         </div>
-        <ul class="scoreList">
-          <h1>Scores</h1>
-        </ul>
-      </main>
+      </footer>
     </div>
     <script src="js/app.js"></script>
   </body>
