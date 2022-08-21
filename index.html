@@ -31,8 +31,8 @@
             <span>Down</span>
           </div>
           <div class="header-content">
-            <div class="box">5</div>
-            <div class="box">9</div>
+            <div class="box">0</div>
+            <div class="box">0</div>
             <span class="life"> <i class="fa-solid fa-heart"></i> 5 </span>
           </div>
           <div class="up">
@@ -42,9 +42,11 @@
         </header>
         <section>
           <input
-            type="text"
+            type="number"
             placeholder="Enter your guess"
             class="guessInput"
+            min="0"
+            max="99"
           />
           <input
             type="button"
@@ -60,7 +62,7 @@
           <h2>Scores</h2>
           <div class="score-box">
             <span><i class="fa-solid fa-star"></i></span>
-            <span><b>100p</b></span>
+            <span class="bestScore"><b>100p</b></span>
           </div>
         </div>
       </footer>

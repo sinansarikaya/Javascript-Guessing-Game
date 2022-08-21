@@ -6,19 +6,43 @@ const scoreList = document.querySelector(".scores");
 const bestScore = document.querySelector(".bestScore");
 const arrowDown = document.querySelector(".down");
 const arrowUp = document.querySelector(".up");
+const box = document.querySelector(".header-content div:nth-child(1)");
+const box2 = document.querySelector(".header-content div:nth-child(2)");
 
 let getScore = JSON.parse(localStorage.getItem("playerScore"));
 
 let life = 5;
-let randomNumber = Math.round(Math.random() * 100);
+let randomNumber = Math.floor(Math.random() * 100);
 let isEnd = false;
+let inputControl = false;
+
+guessInput.addEventListener("input", () => {
+  console.log(guessInput.value.length);
+  if (guessInput.value.length > 2) {
+    error("Maximum 25 characters!", "#fe5f5580");
+    inputControl = false;
+  } else {
+    if (guessInput.value.length == 1) {
+      inputControl = true;
+      box.innerHTML = "0";
+      box2.innerHTML = guessInput.value[0];
+      console.log(inputControl);
+    } else if (guessInput.value.length == 2) {
+      inputControl = true;
+      box.innerHTML = guessInput.value[0];
+      box2.innerHTML = guessInput.value[1];
+      console.log(inputControl);
+    }
+  }
+});
 
 console.log(randomNumber);
+console.log(inputControl);
 
 const getPoint = () => {
   getScore
     .reverse()
-    .slice(0, 5)
+    .slice(0, 4)
     .map((score, i) => {
       scoreList.innerHTML += `<div class="score-box" key="${i}">${
         i + 1
@@ -31,31 +55,34 @@ document.addEventListener("keyup", (e) => {
     checkResult();
   }
 });
+
 const checkResult = () => {
-  if (life > 0 && !isEnd) {
-    if (Number(guessInput.value) === randomNumber) {
-      endGame();
-    } else if (Number(guessInput.value) < randomNumber) {
-      life -= 1;
-      lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
-      arrowUp.style.opacity = "1";
-      arrowDown.style.opacity = "0.5";
-      guessInput.value = "";
+  if (inputControl === true) {
+    if (life > 0 && !isEnd) {
+      if (Number(guessInput.value) === randomNumber) {
+        endGame();
+      } else if (Number(guessInput.value) < randomNumber) {
+        life -= 1;
+        lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
+        arrowUp.style.opacity = "1";
+        arrowDown.style.opacity = "0.5";
+        guessInput.value = "";
+      } else {
+        life -= 1;
+        console.log("Assagi");
+        lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
+        arrowUp.style.opacity = "0.5";
+        arrowDown.style.opacity = "1";
+        guessInput.value = "";
+      }
     } else {
-      life -= 1;
-      console.log("Assagi");
-      lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
-      arrowUp.style.opacity = "0.5";
-      arrowDown.style.opacity = "1";
-      guessInput.value = "";
+      endGame();
     }
-  } else {
-    endGame();
   }
 };
-// if (getScore) {
-//   bestScore.innerHTML = `Best Score ${Math.max(...getScore)}`;
-// }
+if (getScore) {
+  bestScore.innerHTML = Math.max(...getScore);
+}
 
 function endGame() {
   isEnd = true;
@@ -92,9 +119,15 @@ resetButton.addEventListener("click", () => {
   randomNumber = Math.round(Math.random() * 100);
   life = 5;
   isEnd = false;
+  inputControl = false;
   lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
   guessInput.value = "";
   arrowUp.style.opacity = "0.5";
   arrowDown.style.opacity = "0.5";
+  box.innerHTML = "0";
+  box2.innerHTML = "0";
   console.log(randomNumber);
 });
+const error = (msg, type) => {
+  console.log(msg, type);
+};
