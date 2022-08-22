@@ -52,8 +52,6 @@ guessInput.addEventListener("input", () => {
   }
 });
 
-console.log(randomNumber);
-
 document.addEventListener("keyup", (e) => {
   if (e.key == "Enter") {
     if (inputControl && !isEnd) {
