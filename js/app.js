@@ -9,17 +9,16 @@ const arrowUp = document.querySelector(".up");
 const box = document.querySelector(".header-content div:nth-child(1)");
 const box2 = document.querySelector(".header-content div:nth-child(2)");
 
-let getScore = JSON.parse(localStorage.getItem("playerScore"));
-
 let life = 5;
 let randomNumber = Math.floor(Math.random() * 100);
 let isEnd = false;
 let inputControl = false;
+let getScore = JSON.parse(localStorage.getItem("playerScore"));
 
 guessInput.addEventListener("input", () => {
   console.log(guessInput.value.length);
   if (guessInput.value.length > 2) {
-    error("Maximum 25 characters!", "#fe5f5580");
+    error("Maximum 2 characters!", "#fe5f5580");
     inputControl = false;
   } else {
     if (guessInput.value.length == 1) {
@@ -58,38 +57,36 @@ document.addEventListener("keyup", (e) => {
 
 const checkResult = () => {
   if (inputControl === true) {
-    if (life > 0 && !isEnd) {
-      if (Number(guessInput.value) === randomNumber) {
+    if (!isEnd) {
+      if (life === 0) {
+        endGame();
+      } else if (Number(guessInput.value) === randomNumber) {
         endGame();
       } else if (Number(guessInput.value) < randomNumber) {
         life -= 1;
         lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
         arrowUp.style.opacity = "1";
         arrowDown.style.opacity = "0.5";
-        guessInput.value = "";
-      } else {
+      } else if (Number(guessInput.value) > randomNumber) {
         life -= 1;
         console.log("Assagi");
         lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
         arrowUp.style.opacity = "0.5";
         arrowDown.style.opacity = "1";
-        guessInput.value = "";
       }
     } else {
       endGame();
     }
   }
 };
+
 if (getScore) {
   bestScore.innerHTML = Math.max(...getScore);
 }
 
 function endGame() {
   isEnd = true;
-  if (
-    (life === 0 && Number(guessInput.value) === randomNumber) ||
-    Number(guessInput.value) === randomNumber
-  ) {
+  if (Number(guessInput.value) === randomNumber) {
     lifeDiv.innerHTML = `❤️ ${life} Kazandin`;
     setPoint();
     if (getScore) {
@@ -128,6 +125,7 @@ resetButton.addEventListener("click", () => {
   box2.innerHTML = "0";
   console.log(randomNumber);
 });
+
 const error = (msg, type) => {
   console.log(msg, type);
 };
