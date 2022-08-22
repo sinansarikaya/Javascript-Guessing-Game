@@ -160,3 +160,24 @@ footer .scores .score-box {
 footer .scores .score-box:hover {
   opacity: 0.7;
 }
+
+@media (max-width: 364px) {
+  html {
+    font-size: 50%;
+  }
+}
+@media (max-width: 281px) {
+  html {
+    font-size: 40%;
+  }
+}
+@media (max-height: 470px) {
+  html {
+    font-size: 50%;
+  }
+}
+@media (max-height: 400px) {
+  html {
+    font-size: 40%;
+  }
+}

@@ -15,30 +15,8 @@ let isEnd = false;
 let inputControl = false;
 let getScore = JSON.parse(localStorage.getItem("playerScore"));
 
-guessInput.addEventListener("input", () => {
-  console.log(guessInput.value.length);
-  if (guessInput.value.length > 2) {
-    error("Maximum 2 characters!", "#fe5f5580");
-    inputControl = false;
-  } else {
-    if (guessInput.value.length == 1) {
-      inputControl = true;
-      box.innerHTML = "0";
-      box2.innerHTML = guessInput.value[0];
-      console.log(inputControl);
-    } else if (guessInput.value.length == 2) {
-      inputControl = true;
-      box.innerHTML = guessInput.value[0];
-      box2.innerHTML = guessInput.value[1];
-      console.log(inputControl);
-    }
-  }
-});
-
-console.log(randomNumber);
-console.log(inputControl);
-
 const getPoint = () => {
+  bestScore.innerHTML = Math.max(...getScore);
   getScore
     .reverse()
     .slice(0, 4)
@@ -49,8 +27,44 @@ const getPoint = () => {
     });
 };
 
+if (getScore) {
+  getPoint();
+}
+
+guessInput.addEventListener("input", () => {
+  if (guessInput.value.length > guessInput.maxLength) {
+    guessInput.value = guessInput.value.slice(0, guessInput.maxLength);
+  }
+
+  if (guessInput.value.length > 2) {
+    error("Maximum 2 characters!", "#fe5f5580");
+    inputControl = false;
+  } else {
+    if (guessInput.value.length == 1) {
+      inputControl = true;
+      box.innerHTML = "0";
+      box2.innerHTML = guessInput.value[0];
+    } else if (guessInput.value.length == 2) {
+      inputControl = true;
+      box.innerHTML = guessInput.value[0];
+      box2.innerHTML = guessInput.value[1];
+    }
+  }
+});
+
+console.log(randomNumber);
+
 document.addEventListener("keyup", (e) => {
   if (e.key == "Enter") {
+    if (inputControl && !isEnd) {
+      life -= 1;
+      checkResult();
+    }
+  }
+});
+guessButton.addEventListener("click", (e) => {
+  if (inputControl && !isEnd) {
+    life -= 1;
     checkResult();
   }
 });
@@ -63,16 +77,16 @@ const checkResult = () => {
       } else if (Number(guessInput.value) === randomNumber) {
         endGame();
       } else if (Number(guessInput.value) < randomNumber) {
-        life -= 1;
         lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
         arrowUp.style.opacity = "1";
         arrowDown.style.opacity = "0.5";
+        guessInput.value = "";
       } else if (Number(guessInput.value) > randomNumber) {
-        life -= 1;
         console.log("Assagi");
         lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life}`;
         arrowUp.style.opacity = "0.5";
         arrowDown.style.opacity = "1";
+        guessInput.value = "";
       }
     } else {
       endGame();
@@ -80,34 +94,41 @@ const checkResult = () => {
   }
 };
 
-if (getScore) {
-  bestScore.innerHTML = Math.max(...getScore);
-}
+let newScore;
+const countScore = (life) => {
+  if (life === 4) {
+    newScore = 100;
+  } else if (life === 3) {
+    newScore = 80;
+  } else if (life === 2) {
+    newScore = 60;
+  } else if (life === 1) {
+    newScore = 40;
+  } else if (life === 0) {
+    newScore = 20;
+  }
+  return newScore;
+};
 
 function endGame() {
+  newScore = countScore(life);
   isEnd = true;
   if (Number(guessInput.value) === randomNumber) {
-    lifeDiv.innerHTML = `❤️ ${life} Kazandin`;
+    lifeDiv.innerHTML = `Score : ${newScore} Win`;
     setPoint();
-    if (getScore) {
-      getPoint();
-    }
   } else if (life === 0 && Number(guessInput.value) !== randomNumber) {
-    lifeDiv.innerHTML = `❤️ ${life} Kaybettin`;
+    lifeDiv.innerHTML = `<i class="fa-solid fa-heart"></i> ${life} Lose`;
   }
 }
 
-if (getScore) {
-  getPoint();
-}
-
 const setPoint = () => {
+  newScore = countScore(life);
   let score = [];
   if (getScore) {
-    getScore.push(life);
+    getScore.push(newScore);
     score = getScore;
   } else {
-    score[0] = life;
+    score[0] = newScore;
   }
   localStorage.setItem("playerScore", JSON.stringify(score));
 };
@@ -124,6 +145,7 @@ resetButton.addEventListener("click", () => {
   box.innerHTML = "0";
   box2.innerHTML = "0";
   console.log(randomNumber);
+  location.reload(true);
 });
 
 const error = (msg, type) => {
